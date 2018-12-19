@@ -1,0 +1,51 @@
+@model UserTransactionBundle
+<!-- Insert Model Here -->
+<div class="row justify-content-center">
+    <div class="col-lg-10 rounded justify-content-center m-4 bg-white">
+        <div class="row justify-content-center m-3">
+            <h3>Welcome @Model.user.FirstName @Model.user.LastName</h3>
+        </div>
+        <div class="row justify-content-center m-3">
+            <h4>Your current account balance is: $@Model.Balance</h4>
+        </div>
+        <form asp-action="createTransaction" asp-controller="Main" method="POST">
+            <div class="row justify-content-center m-3">
+                <div class="col-md-10 text-center">
+                    <label asp-for="transaction.Amount" class="mr-4"><h5>Deposit/Withdraw</h5></label>
+                    <input type="text" class="w-25 mr-4" asp-for="transaction.Amount">
+                    <input type="hidden" asp-for="transaction.UserId" value="@Model.user.UserId">
+                    <button type="submit" class="btn btn-primary">Process Transaction</button>
+                    <p><span asp-validation-for="transaction.Amount" class="text-danger"></span></p>
+                </div>
+            </div>
+        </form>
+        <div class="row justify-content-center m-3">
+            <table class="table table-striped h-25 scroll">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" style="width: 50%;">Amount</th>
+                    <th scope="col" style="width: 50%;">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model.transactions == null)
+                {
+
+                }
+                else
+                {
+                    @foreach(var transaction in Model.transactions)
+                    {
+                        <tr>
+                            <td>$@transaction.Amount</td>
+                            <td>@transaction.CreatedAt</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="row justify-content-center m-3">
+            <a href="logout" class="btn btn-danger my-2 ml-3">Logout</a>
+        </div>
+    </div>
+</div>
